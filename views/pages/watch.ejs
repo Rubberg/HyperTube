@@ -1,0 +1,138 @@
+<% include header2 %>
+
+<main class="wrapper">
+    <div class="container" id="profileList">
+
+    	<div class="search">
+	    	<div class="form-section">
+
+		    	<div id="player-section" class="">
+
+					<div class="row">
+						<div class="col-sm-12">
+							<h1 id="movie-title"><%=title%></h1>
+						</div>
+					</div><!-- /row -->
+
+					<div id="video-player" class="row" style="margin-left: auto;margin-right: auto;text-align: center" >
+						<video style="position: relative;margin-left: auto;margin-right: auto;" width="100%" controls>
+							<source src="run/<%=movie%>" type="video/mp4">
+							Your browser does not support the <code>video</code> element.
+						</video><!-- /col-sm-12 -->
+						<div class="col-sm-12">
+							<input id="magnet" type="hidden" name="" value='<%=movie%>'>
+							<input id="movieId" type="hidden" name="" value='<%=movieId%>'>
+							<input id="user" type="hidden" name="" value='<%=user%>'>
+						</div><!-- /col-sm-1 -->
+
+					</div><!-- /row -->
+
+
+				</div><!-- /container -->
+	    		
+	    	</div>	
+    	</div>
+
+    	<div class="search">
+	    	<div class="form-section">
+
+		    	<div id="comment-section" class="">
+
+					<div class="row">
+						<div class="col-md-12">
+		    				<input type="text" class="form-control" id="filmSearch" placeholder="Commenter le film...">
+						</div><!-- /col-sm-12 -->
+						<div class="col-sm-12">
+							<h3 id="comment-title">Commentaires:</h3>
+						</div><!-- /col-sm-12 -->
+					</div><!-- /row -->
+
+					<div class="row" id="comment-model">
+						<div class="col-sm-1">
+							<div class="thumbnail">
+								<img class="img-responsive user-photo" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png">
+							</div><!-- /thumbnail -->
+						</div><!-- /col-sm-1 -->
+
+						<div class="col-sm-11">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<strong class="pseudo">myusername</strong> <span class="text-muted">commented:</span>
+								</div>
+								<div class="panel-body">
+									Panel content
+								</div><!-- /panel-body -->
+							</div><!-- /panel panel-default -->
+						</div><!-- /col-sm-5 -->		
+					</div><!-- /row -->
+
+				</div><!-- /container -->
+	    		
+	    	</div>	
+    	</div>
+
+
+
+		    
+	</div>
+
+</main>
+<script type="text/javascript">
+
+	$("#filmSearch").on('focus', (e) => {
+		e.currentTarget.placeholder = '';
+	});
+
+	$("#filmSearch").on('focusout', (e) => {
+		e.currentTarget.placeholder = 'Commenter le film...';
+	});
+
+	$("#comment-model").css('display', 'none');
+
+
+	var socket = io.connect('http://localhost:8080');
+	socket.on('connect', function() {
+
+    	socket.emit('newUser', {login: '<%=user%>', id: socket.id});
+
+		socket.emit('watched', {id: socket.id, movieId: $('#movieId').attr('value'), username: '<%=user%>'});
+		socket.emit('getComments', {id: socket.id, movie: $('#magnet').attr('value')});
+
+		socket.on('browseComments', (data) => {
+			for (var i = 0; i < data.comments.length; i++) {
+				var clone = $("#comment-model").clone();
+				clone.css('display', 'block')
+				clone.attr('id', '')
+				clone.find('.user-photo').attr('src', data.comments[i].img)
+				clone.find('.pseudo').text(data.comments[i].username)
+				clone.find('.panel-body').text(data.comments[i].comment)
+	            $('#comment-section').append(clone);
+			}
+		});
+
+		$("#filmSearch").on('keyup', (e) => {
+	        if ((e.keyCode == 13) && ($("#filmSearch").val() != '')) {
+				var clone = $("#comment-model").clone();
+				clone.css('display', 'block')
+				clone.attr('id', '')
+				if (("<%=img%>".slice(0, 4) == "http")) {
+					var src = "<%=img%>"
+				}
+				else{
+					var src = "../../<%=img%>"
+				}
+				clone.find('.user-photo').attr('src', src)					
+				clone.find('.pseudo').text('<%=user%>')
+				clone.find('.panel-body').text($("#filmSearch").val())
+	            $('#comment-section').append(clone);
+	            socket.emit('newComment', {id: socket.id, movie: $('#magnet').attr('value'), username: '<%=user%>', img: src, comment: $("#filmSearch").val()});
+	        }
+	    });
+
+		
+	})
+
+</script>
+
+
+<%include footer %>

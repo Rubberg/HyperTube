@@ -1,0 +1,29 @@
+<% include header2 %>
+
+	<div class="container">
+		<div class="col-md-6 col-md-offset-3">
+			<div class="form-group">
+	      		<a href="/connexion" id="connection-btn1" type="button" class="btn btn-info">Connection</a>
+	    	</div>
+		    <hr>
+		    <div class="form-group">
+		      	<a href="/inscription" id="inscription-btn1" type="button" class="btn btn-info">Inscription</a>
+		    </div>
+		</div>
+	</div>
+
+	<script src="/socket.io/socket.io.js"></script>
+	<script type="text/javascript">
+
+		$("#logoutIcon").css('display', 'none');
+		$("#profileIcon").css('display', 'none');
+		$("#profileListIcon").css('display', 'none');
+		$("#homeIcon").css('display', 'none');
+	    
+		var socket = io.connect('http://localhost:8080');
+    	socket.on('connect', function() {
+	        
+    	});
+	</script>
+
+<%include footer %>

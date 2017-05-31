@@ -1,0 +1,150 @@
+<% include header2 %>
+
+
+<div class="container text-center">
+      <div class="search">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+              <div class="form-section">
+                <div class="row">
+
+                	<h2 id="inscription">Inscription</h2>
+                	<form enctype="multipart/form-data">
+                    <div id="resultat"></div>
+                		<div class="form-group">
+                        <div class="col-sm-12">
+                    			<input type="email" class="form-control" id="mail" placeholder="Enter email..." >
+                        </div>
+                  	</div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                          <input type="password" class="form-control" id="pwd" placeholder="Enter password..." >
+                        </div>
+                    </div>
+                		</br>
+                		<div class="form-group">
+                  		<div class="col-sm-12">
+                    			<input type="text" class="form-control" id="pseudo" placeholder="Enter pseudo..." >
+                  		</div>
+                		</div>
+                    </br>
+                    <div class="form-group">
+                      <div class="col-sm-12">
+                          <input type="text" class="form-control" id="nom" placeholder="Enter lastname..." >
+                      </div>
+                    </div>
+                		<br />
+                    <div class="form-group">
+                      <div class="col-sm-12">
+                          <input type="text" class="form-control" id="prenom" placeholder="Enter firstname..." >
+                      </div>
+                    </div>
+                    </br>
+                		<div class="form-group"> 
+                  		<div class="col-sm-12">
+                    			<button type="submit" id="inscription_form" class="btn btn-info">Envoyer</button>
+                          <input type="hidden" name="geo" id="geoResult" value=""></input>
+                  		</div>
+                  	</div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+</div>
+
+<script>
+   $(function(){
+    $("#logoutIcon").css('display', 'none');
+    $("#profileIcon").css('display', 'none');
+    $("#profileListIcon").css('display', 'none');
+    $("#homeIcon").css('display', 'none');
+
+    $(".form-control").on('focus', (e) => {
+      e.currentTarget.placeholder = '';
+    });
+
+    $("#mail").on('focusout', (e) => {
+      e.currentTarget.placeholder = 'Enter email...';
+    });
+
+    $("#pwd").on('focusout', (e) => {
+      e.currentTarget.placeholder = 'Enter password...';
+    });
+    $("#pseudo").on('focusout', (e) => {
+      e.currentTarget.placeholder = 'Enter pseudo...';
+    });
+    $("#nom").on('focusout', (e) => {
+      e.currentTarget.placeholder = 'Enter lastname...';
+    });
+    $("#prenom").on('focusout', (e) => {
+      e.currentTarget.placeholder = 'Enter firstname...';
+    });
+
+    var $email = $("#mail"),
+        $pseudo = $("#pseudo"),
+        $nom = $("#nom"),
+        $prenom = $("#prenom");
+        $pwd = $("#pwd");
+
+
+        $.getJSON("http://ip-api.com/json/?callback=?", function(data) {
+          $("#geoResult").val(JSON.stringify(data));
+     });
+
+
+    $("#inscription_form").click(function(e){
+       e.preventDefault();
+
+       var $email = $("#mail").val(),
+        $pseudo = $("#pseudo").val(),
+        $nom = $("#nom").val(),
+        $prenom = $("#prenom").val(),
+        $pwd = $("#pwd").val(),
+        $geo = $("#geoResult").val();
+
+
+        if (check($email) &&
+            checkSecu($pseudo) &&
+            check($nom) &&
+            check($prenom) &&
+            checkSecu($pwd)){
+          $.post(
+            'inscription/inscription',
+            {
+                email : $email,
+                pseudo : $pseudo,
+                nom: $nom,
+                prenom: $prenom,
+                pwd: $pwd,
+                geo: $geo,
+            },
+            function(data){
+              $("#resultat").html(data);
+            },
+            'text'
+         );
+        }
+    });
+    function checkSecu(champ){
+      if (!champ.match(/[A-Z]/)){
+        $("#resultat").html('Il faut une majuscule sur le pseudo et sur le motdepasse');
+        return false;
+      }else return true;
+    }
+
+    function check(champs){
+        if(champs == ""){ 
+          $("#resultat").html('un des champ est un complet');
+          return false;
+        } else return true;
+    }
+
+});
+</script>
+
+</body>
+</html>

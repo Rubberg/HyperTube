@@ -1,0 +1,45 @@
+<% include header2 %>
+<link rel="stylesheet" type="text/css" href="../../stylesheets/profile_cards.css">
+
+<main class="wrapper">
+    <div class="container" id="profileList">
+
+
+	    <div class="col-sm-3" id="profileModel%>">
+	        <div class="card">
+	            <canvas class="header-bg" width="250" height="70" id="header-blur"></canvas>
+	            <div class="avatar">
+	                <img src="" alt=""/>
+	            </div>
+	            <div class="content">
+	                <h3>userLogin</h3>
+	               	<p id="firstname"> userFirstname</p>
+	               	<p id="lastname">userLastname </p>
+	            </div>
+	        </div>
+	    	<img class="src-image"  src="img/42.png"/>
+	    </div>
+		    
+	</div>
+
+</main>
+<script src="profile_cards.js" ></script>
+<script type="text/javascript">
+	<% for (var i = 0; i < users.length; i++) { %>
+		$('#model').css('display', 'none')
+		$('#profileModel').css('display', 'none')
+		var clone = $('#profileModel').clone()
+		clone.attr('id', '<%=users[i].username%>')
+		clone.find('h3').text('<%=users[i].username%>')
+		clone.find('#firstname').text('Prénom: <%=users[i].prenom%>')
+		clone.find('#lastname').text('Nom: <%=users[i].nom%>')
+		clone.find(".src-image").attr('src', '<%=users[i].img%>')
+		clone.css('display', 'inline-block')
+		clone.hide().fadeIn()
+		$('#profileList').append(clone);
+
+	<%}%>
+	
+</script>
+
+<%include footer %>

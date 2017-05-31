@@ -1,0 +1,174 @@
+<% include header2 %>
+  
+    <div class="container">
+      <div class="search">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+              <div class="form-section">
+                <div class="row">
+  		            <h2 id="connection">Connection</h2>
+                	<form>
+                      <div id="resultat">
+                      </div>
+                      <div id="email-input" class="col-md-12">
+                        <div class="form-group">
+                    			<input type="text" class="form-control" id="email" placeholder="Enter email or pseudo..." >
+                        </div>
+                    	</div>
+                      <div id="pwd-input" class="col-md-12">
+                        <div class="form-group">
+                          <input type="password" class="form-control" id="pwd" placeholder="Enter password..." >
+                        </div>
+                      </div>
+                        <div class="form-group"> 
+                            <button type="submit" id="connexion_form" class="btn btn-info">Envoyer</button>
+                        </div>
+
+                      <p id="omniauth">ou se connecter avec:</p>
+
+                        <div id="logos"> 
+                          <a href="/auth/facebook"><span class="fa fa-facebook-official fa-4x"></span></a>
+                          <a href="/auth/42"><span><img id="logo42" src="img/42.jpg"></span></a>
+                      </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="search">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+              <div class="form-section">
+                <a href="/inscription" id="inscription-btn" type="button" class="btn btn-info">Pas encore inscrit?</a>
+                  
+                <button id="forgotten-pwd-btn" type="button" class="btn btn-info" data-toggle="modal" data-target=".bd-example-modal-sm">j'ai oublié mon pwd</button>
+
+                <div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                  <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                      <forn>
+                        <div id="resultatFrgtPwd"></div>
+                        <p id="omniauth">Recevoir un nouveau password:</p>
+                        <div class="form-group">
+                          <div id="email_frgt-input" class="col-md-12">
+                            <input type="email" class="form-control" id="email_frgt" placeholder="Enter email..." >
+                          </div>
+                        </div>
+                        <div class="form-group"> 
+                      		<div class="col-md-offset-2 col-md-8">
+                        			<button type="submit" id="frgt_pwd_form" class="btn btn-info">Envoyer</button>
+                      		</div>
+                      	</div>
+                      </forn>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <script>
+
+    $(".form-control").on('focus', (e) => {
+      e.currentTarget.placeholder = '';
+    });
+
+    $("#email").on('focusout', (e) => {
+      e.currentTarget.placeholder = 'Enter email or pseudo...';
+    });
+
+    $("#pwd").on('focusout', (e) => {
+      e.currentTarget.placeholder = 'Enter password...';
+    });
+
+    $("#logoutIcon").css('display', 'none');
+    $("#profileIcon").css('display', 'none');
+    $("#profileListIcon").css('display', 'none');
+    $("#homeIcon").css('display', 'none');
+
+    $(function(){
+
+      var $email = $("#email"),
+          $pwd = $("#pwd");
+          $email.keyup(function(){
+
+          })
+
+
+      $("#connexion_form").click(function(e){
+         e.preventDefault();
+         let $email = $("#email").val(),
+          $pwd = $("#pwd").val();
+          if (check($email) &&
+              check($pwd)){
+            $.post(
+              'connexion/connexion',
+              {
+                  email : $email,
+                  pwd: $pwd,
+              },
+              function(data){
+                $("#resultat").html(data);
+                $("#profileIcon").fadeIn();
+                $("#profileIcon").css('display', 'block');
+                $("#profileListIcon").fadeIn();
+                $("#profileListIcon").css('display', 'block');
+                $("#logoutIcon").fadeIn();
+                $("#logoutIcon").css('display', 'block');
+                $("#homeIcon").fadeIn();
+                $("#homeIcon").css('display', 'block');
+              },
+              'text'
+           );
+          }         
+      });
+
+      $("#frgt_pwd_form").click(function(e){
+        e.preventDefault();
+
+        let $email = $("#email_frgt").val();
+
+        if (check($email)){
+          $.post(
+            'connexion/frgt_pwd',
+            {
+                email : $email,
+            },
+            function(data){
+              $("#resultatFrgtPwd").html(data);
+            },
+            'text'
+          );
+        }
+       });
+          
+
+      function check(champs){
+          if(champs == ""){ 
+            $("#resultat").html('un des champ est un complet');
+            return false;
+          } else return true;
+      }
+
+  });
+  </script>
+
+
+
+
+
+  </body>
+  <%include footer %>
+</html>

@@ -1,0 +1,345 @@
+<% include header2 %>
+
+<main class="wrapper">
+
+
+
+<div class="container">
+	<div class="search">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-section">
+                <div class="row">
+
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <label class="sr-only" for="filmSearch">filmSearch
+                          </label>
+                          <input type="text" class="form-control" id="filmSearch" placeholder="Rechercher...">
+                        </div>
+                      </div>
+
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label class="sr-only" for="title">Tri par titre</label>
+                          <div class="input-group">
+                            <input type="text" class="form-control" id="title" placeholder="Tri par titre">
+                            <span id="title-desc" class="input-group-addon"><i class="glyphicon glyphicon-chevron-down"></i></span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label class="sr-only" for="year">Tri par année</label>
+                          <div class="input-group">
+                            <input type="text" class="form-control" id="year" placeholder="Tri par année">
+                            <span id="year-desc" class="input-group-addon"><i class="glyphicon glyphicon-chevron-down"></i></span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label class="sr-only" for="rank">Tri par note IMDb</label>
+                          <div class="input-group">
+                            <input type="text" class="form-control" id="rank" placeholder="Tri par note IMDb">
+                            <span id="rank-desc" class="input-group-addon"><i class="glyphicon glyphicon-chevron-down"></i></span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label class="sr-only" for="length">Tri par durée</label>
+                          <div class="input-group">
+                            <input type="text" class="form-control" id="length" placeholder="Tri par durée">
+                            <span id="length-desc" class="input-group-addon"><i class="glyphicon glyphicon-chevron-down"></i></span>
+                          </div>
+                        </div>
+                      </div>
+                       <div class="col-md-3">
+                        <div class="form-group">
+                          <label class="sr-only" for="title">Titres commençant par:</label>
+                          <select id="title" name="title" class="form-control" required="">
+							<option disabled="" selected="">Titres commençant par:</option>		                      				
+							<option value="a">A</option>
+							<option value="b">B</option>
+							<option value="c">C</option>
+							<option value="d">D</option>
+							<option value="e">E</option>
+							<option value="f">F</option>
+							<option value="g">G</option>
+							<option value="h">H</option>
+							<option value="i">I</option>
+							<option value="j">J</option>
+							<option value="k">K</option>
+							<option value="l">L</option>
+							<option value="m">M</option>
+							<option value="n">N</option>
+							<option value="o">O</option>
+							<option value="p">P</option>
+							<option value="q">Q</option>
+							<option value="r">R</option>
+							<option value="s">S</option>
+							<option value="t">T</option>
+							<option value="u">U</option>
+							<option value="v">V</option>
+							<option value="w">W</option>
+							<option value="x">X</option>
+							<option value="y">Y</option>
+							<option value="z">Z</option>
+							<option value="autre">Autre</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label class="sr-only" for="year">Année de production:</label>
+                          <select id="year" name="year" class="form-control" required="">
+							<option disabled="" selected="">Année de production:</option>		                      				
+							<option value="<1930">Avant 1930</option>
+							<option value="1930">Années 1930</option>
+							<option value="1940">Années 1940</option>
+							<option value="1950">Années 1950</option>
+							<option value="1960">Années 1960</option>
+							<option value="1970">Années 1970</option>
+							<option value="1980">Années 1980</option>
+							<option value="1990">Années 1990</option>
+							<option value="2000">Années 2000</option>
+							<option value="2010">Années 2010</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label class="sr-only" for="rank">Note IMDb:</label>
+                          <select id="rank" name="rank" class="form-control" required="">
+							<option disabled="" selected="">Note IMDb:</option>		                      				
+							<option value="0">0</option>
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+							<option value="6">6</option>
+							<option value="7">7</option>
+							<option value="8">8</option>
+							<option value="9">9</option>
+							<option value="10">10</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label class="sr-only" for="genre">Genre:</label>
+                          <select id="genre" name="genre" class="form-control" required="">
+							<option disabled="" selected="">Genre:</option>		                      				
+                          </select>
+                        </div>
+                      </div>
+                </div>
+            	<button id="reload" type="button" class="btn btn-info">Recommencer</button>
+              </div>
+            </div>
+          </div>
+         </div>
+    </div>
+
+
+
+	<div class="container" id="loadAnim">
+		<div class="row">
+            <div id="loading">
+                <ul class="bokeh">
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                </ul>
+            </div>
+		</div>
+	</div>
+
+	<div class="col-md-12" id="alert">
+		<p id="alertMsg"></p>
+	</div>
+
+	<div id="filmsList">
+		<div class="col-md-3" id="model">
+			<div class="film">
+				<div class="image-container">
+				</div>
+				<div class="filmInfo">
+					<div class="text">
+						<div class="title"></div>
+						<form id="watch" action="watch/datas" method="post">
+							<input id="movieDatas" type="hidden" name="movie">
+							<input id="movieTitle" type="hidden" name="title">
+							<input id="movieId" type="hidden" name="movieId">
+							<button  id="browseFilm" type="submit" class="btn-o"><i class="fa fa-play-circle fa-5x"></i></button>
+						</form>
+						<div class="year"></div>
+						<div class="rating"></div>
+						<div class="summary"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	
+</div>			
+</main>
+
+
+<script type="text/javascript">
+
+		var socket = io.connect('http://localhost:8080');
+    	socket.on('connect', function() {
+
+	    	socket.emit('newUser', {login: '<%=user%>', id: socket.id});
+
+    		var id = 0;
+
+	        socket.emit('getFilmsList', {id: socket.id});
+	        $('#loadAnim').css("display", "block");
+
+	        socket.on('noFilmsList', (data) => {
+	        	$('#loadAnim').css("display", "none");
+	        	$('#alert').css("display", "block");
+	        	$('#alertMsg').text("Aucun résultat correspondant!");
+	        })
+
+	        socket.on('gotWatched', (data) => {
+        		$('#movieId[value="'+data.movieId+'"]')[0].parentElement.parentElement.firstElementChild.append('(watched)')
+	        })
+
+	        socket.on('browseFilmsList', (data) => {
+		        $('#loadAnim').css("display", "none");
+	        	if (data.filmsList == 'empty') {
+	        		$('#alert').css("display", "block");
+	        		$('#alertMsg').text("Aucun résultat correspondant!");
+	        	}
+	        	else {
+					var filmsList = data.filmsList;
+					if (filmsList.movieDatas) {
+						var poster = filmsList.movieDatas.poster;
+						if ((poster.slice(0, 4) == "http")) {
+
+	        					socket.emit('isWatched', {id: socket.id, username: '<%=user%>', movieId: filmsList.id});
+
+								var clone = $("#model").clone();
+								clone.css("display", "block");
+								clone.attr("id", id++);
+								clone.css("margin-bottom", "10px");
+								clone.hover(function() {
+									$(this).find('.filmInfo').css("display", "inline-block");
+								    }, function(){
+								    $(this).find('.filmInfo').css("display", "none");
+								});
+								clone.find('.image-container').css('backgroundImage', 'url("'+filmsList.movieDatas.poster+'")');
+								clone.find('.image-container').css('background-repeat', 'round');
+								clone.find('.title').text(filmsList.movieDatas.title);
+								clone.find('.year').text("Année de production: "+filmsList.movieDatas.year);
+								clone.find('.rating').text("Note IMDb: "+filmsList.movieDatas.rating);
+								clone.find('.summary').text("Résumé: "+filmsList.movieDatas.plot);
+								clone.find('#movieDatas').attr('value', filmsList.magnetLink)
+								clone.find('#movieTitle').attr('value', filmsList.title)
+								clone.find('#movieId').attr('value', filmsList.id)
+								clone.find('#browseFilm').on('click', function () {
+									$('#watch').submit();
+								});
+								clone.hide().fadeIn()
+								$('#filmsList').append(clone);
+						}
+					}
+					// Système de pagination par scroll infini
+					$(document).ready(function() {
+						var win = $(window);
+						win.data('ajaxready', true);
+
+						// Each time the user scrolls
+						win.scroll(function() {
+							if (win.data('ajaxready') == false) return;
+							// End of the document reached?
+							if ($(document).height() - win.height() == win.scrollTop()) {
+								//Empeche de boucler sur l'évênement
+								win.data('ajaxready', false);
+								socket.emit('getMoreFilms', {id: socket.id});									
+							}
+						});
+					});
+	        	}
+			});
+
+	        socket.on('browseGenres', (data) => {
+	        	for (var i = 0; i < data.genres.length; i++) {
+	        		$('#genre').append('<option value="'+data.genres[i]+'">' + data.genres[i] + '</option>')
+	        	}
+	        });
+
+
+			$('#reload').on('click', (e) => {
+				location.reload();
+			})
+
+
+			$("#filmSearch").on('focus', (e) => {
+				e.currentTarget.placeholder = '';
+			});
+
+			$("#filmSearch").on('focusout', (e) => {
+				e.currentTarget.placeholder = 'Rechercher...';
+			});
+
+			$("#filmSearch").on('keyup', (e) => {
+		        if (e.keyCode == 13) {
+		        	$('#alert').css("display", "none");
+					var clone = $("#model").clone();
+		            $('#filmsList').html('');
+		            $('#filmsList').append(clone);
+	        		$('#loadAnim').css("display", "block");
+		            socket.emit('getFilmsList', {id: socket.id, title: $("#filmSearch").val()});
+		        }
+		    });
+
+			
+				
+			$('.input-group-addon').on('click', (e) => {
+		    	socket.emit('getDatSort', {id: socket.id, sort: e.currentTarget.id});
+				var clone = $("#model").clone();
+	            $('#filmsList').html('');
+	            $('#filmsList').append(clone);
+        		$('#loadAnim').css("display", "block");
+		    	var tab = e.currentTarget.id.split('-')
+		    	if (tab[1] == 'asc') {
+		    		tab[1] = 'desc'
+		    	}
+		    	else {
+		    		tab[1] = 'asc'
+		    	}
+		    	$('#'+e.currentTarget.id).attr('id', tab.join('-'))
+		    	if (e.currentTarget.firstChild.className == 'glyphicon glyphicon-chevron-down') {
+		    		e.currentTarget.firstChild.className = 'glyphicon glyphicon-chevron-up'
+		    	}
+		    	else if (e.currentTarget.firstChild.className == 'glyphicon glyphicon-chevron-up'){
+		    		e.currentTarget.firstChild.className ='glyphicon glyphicon-chevron-down'
+		    	}
+			})
+
+			$("select").change(() => {
+			    var tab = [];
+			    $( "select option:selected" ).each(function(i) {
+			      	tab[$(this)[0].parentNode.id] = $(this).val()
+			    });
+	    		socket.emit('getDatSort', {id: socket.id, title: tab['title'].toUpperCase(), genre: tab['genre'], year: tab['year'], rank: tab['rank']});
+				var clone = $("#model").clone();
+	            $('#filmsList').html('');
+	            $('#filmsList').append(clone);
+        		$('#loadAnim').css("display", "block");
+			  })
+
+    	});
+</script>
+
+<%include footer %>
